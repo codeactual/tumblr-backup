@@ -8,8 +8,7 @@ Downloads post content and metadata using the Tumblr API.
 
 # Output
 
-```
-$ python tumblr-backup.py | python -mjson.tool
+``` javascript
 [
     {
         "body": "<p>Text body.</p>",
