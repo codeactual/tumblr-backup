@@ -6,6 +6,7 @@ root_dir = os.path.dirname(os.path.abspath(__file__)) + '/..'
 
 sys.path.append(root_dir + '/src')
 import tumblrbackup as tb
+import normalize4yql as normalize
 
 def get_test_page():
     config = tb.get_config('config-test.json')
@@ -38,6 +39,12 @@ class TumblrBackupTestCase(unittest.TestCase):
         self.assertFalse('tags' not in page['posts'][0])
 
     def test_backup(self):
-        expected = open(root_dir + '/test/fixture/backup.json').read()
+        expected = open(root_dir + '/test/fixture/backup.json').read().rstrip()
         actual = tb.backup('config-test.json')
-        self.assertEqual(expected.rstrip(), actual)
+        self.assertEqual(expected, actual)
+
+class Normalize4YqlTestCase(unittest.TestCase):
+    def test_output(self):
+        expected = open(root_dir + '/test/fixture/backup-normalized4yql.json').read().rstrip()
+        actual = normalize.normalize(root_dir + '/test/fixture/backup-alltypes.json')
+        self.assertEqual(expected, actual)
