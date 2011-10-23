@@ -6,13 +6,14 @@ for use as a YQL input source. Matches Tumblr RSS tag names.
 import argparse
 import json
 
-def normalize(file):
+def normalize(file, base_url):
     json_str = open(file).read()
     json_obj = json.loads(json_str)
 
     posts = []
     for raw_post in json_obj:
         normal_post = {}
+        normal_post['guid'] = base_url + '/post/' + str(raw_post['id'])
         normal_post['pubDate'] = raw_post['timestamp']
         normal_post['tags'] =  raw_post['tags']
 
@@ -36,5 +37,6 @@ def normalize(file):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('file')
+    parser.add_argument('base_url')
     args = parser.parse_args()
-    print normalize(args.file)
+    print normalize(args.file, args.base_url)
