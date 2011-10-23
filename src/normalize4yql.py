@@ -15,7 +15,7 @@ def normalize(file, base_url):
         normal_post = {}
         normal_post['guid'] = base_url + '/post/' + str(raw_post['id'])
         normal_post['pubDate'] = raw_post['timestamp']
-        normal_post['tags'] =  raw_post['tags']
+        normal_post['category'] =  raw_post['tags']
 
         if 'body' in raw_post:
             normal_post['description'] = raw_post['body']
