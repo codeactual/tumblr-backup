@@ -4,7 +4,7 @@ Downloads post content and metadata using the Tumblr API.
 
 # Usage
 
-```python tumblr-backup.py > backup.json```
+```python src/tumblrbackup.py > backup.json```
 
 # Output
 
@@ -40,8 +40,15 @@ Downloads post content and metadata using the Tumblr API.
 ``` javascript
 {
     "url": "my.tumblr.com",
-    "api_key": "myApKey",
+    "api_key": "myApiKey",
     "strip_metadata": ["format", "note_count", "post_url", "reblog_key", "date", "blog_name"]
 }
 ```
 
+
+# Tests
+
+```
+cd test
+python -m unittest discover
+```

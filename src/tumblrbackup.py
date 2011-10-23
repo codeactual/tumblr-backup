@@ -9,7 +9,7 @@ import math
 import os
 import urllib2
 
-def get_api_json(blog_url, api_key, limit = 20, offset = 0, page = 1):
+def get_posts(blog_url, api_key, limit = 20, offset = 0, page = 1):
     """Return JSON of a paginated set of posts."""
     api_url = 'http://api.tumblr.com/v2/blog/{0}/posts?api_key={1}&limit={2}&offset={3}'
     api_url = api_url.format(blog_url, api_key, limit, offset)
@@ -26,10 +26,10 @@ def get_api_json(blog_url, api_key, limit = 20, offset = 0, page = 1):
     response['pages_left'] = math.ceil(float(total_left) / float(limit))
     return response
 
-def get_config():
+def get_config(filename):
     """Return JSON of a paginated set of blog's posts."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    return json.loads(open(script_dir + '/config.json').read())
+    return json.loads(open(script_dir + '/../config/' + filename).read())
 
 def strip_metadata(posts, blacklist):
     """Return the post list stripped of specific metadata keys."""
@@ -43,9 +43,9 @@ def strip_metadata(posts, blacklist):
         formatted.append(core_post)
     return formatted
 
-def backup():
-    """Download paginated posts and output them as JSON."""
-    config = get_config()
+def backup(configfile = 'config.json'):
+    """Download paginated posts, scrub their metadata, and return their JSON."""
+    config = get_config(configfile)
 
     per_page = 20
     offset = 0
@@ -53,21 +53,21 @@ def backup():
     posts = []
 
     while True:
-        api_json = get_api_json(config['url'], config['api_key'], per_page, offset, cur_page)
+        page = get_posts(config['url'], config['api_key'], per_page, offset, cur_page)
 
-        if False == api_json:
+        if False == page:
             break
 
-        posts.extend(api_json['posts'])
+        posts.extend(page['posts'])
 
-        if api_json['pages_left']:
-            offset = int(api_json['pages_left'] * per_page)
+        if page['pages_left']:
+            offset = int(page['pages_left'] * per_page)
             cur_page += 1
         else:
             break
 
     posts = strip_metadata(posts, config['strip_metadata'])
-    print json.dumps(posts, separators = (',', ':'))
+    return json.dumps(posts, separators = (',', ':'))
 
 if __name__ == '__main__':
-    backup()
+    print backup()
