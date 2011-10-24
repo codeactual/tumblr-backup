@@ -4,7 +4,7 @@ Downloads post content and metadata using the Tumblr API.
 
 # Usage
 
-```python src/tumblrbackup.py > backup.json```
+```python tumblrbackup.py > backup.json```
 
 # Output
 
