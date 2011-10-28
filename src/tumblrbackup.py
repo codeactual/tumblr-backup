@@ -55,7 +55,7 @@ def backup(configfile='config.json'):
     while True:
         page = get_posts(config['url'], config['api_key'], per_page, offset, cur_page)
 
-        if False == page:
+        if not page:
             break
 
         posts.extend(page['posts'])
