@@ -9,7 +9,7 @@ import math
 import os
 import urllib2
 
-def get_posts(blog_url, api_key, limit = 20, offset = 0, page = 1):
+def get_posts(blog_url, api_key, limit=20, offset=0, page=1):
     """Return JSON of a paginated set of posts."""
     api_url = 'http://api.tumblr.com/v2/blog/{0}/posts?api_key={1}&limit={2}&offset={3}'
     api_url = api_url.format(blog_url, api_key, limit, offset)
@@ -43,7 +43,7 @@ def strip_metadata(posts, blacklist):
         formatted.append(core_post)
     return formatted
 
-def backup(configfile = 'config.json'):
+def backup(configfile='config.json'):
     """Download paginated posts, scrub their metadata, and return their JSON."""
     config = get_config(configfile)
 
