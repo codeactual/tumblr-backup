@@ -50,7 +50,6 @@ def backup(configfile='config.json'):
     per_page = 20
     offset = 0
     cur_page = 0
-    posts = []
 
     while True:
         page = get_posts(config['url'], config['api_key'], per_page, offset, cur_page)
@@ -58,7 +57,8 @@ def backup(configfile='config.json'):
         if not page:
             break
 
-        posts.extend(page['posts'])
+        posts = strip_metadata(page['posts'], config['strip_metadata'])
+        print json.dumps(posts, separators = (',', ':'))
 
         if page['pages_left']:
             offset = int(page['pages_left'] * per_page)
@@ -66,8 +66,5 @@ def backup(configfile='config.json'):
         else:
             break
 
-    posts = strip_metadata(posts, config['strip_metadata'])
-    return json.dumps(posts, separators = (',', ':'))
-
 if __name__ == '__main__':
-    print backup()
+    backup()
