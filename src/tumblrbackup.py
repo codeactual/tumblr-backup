@@ -58,11 +58,12 @@ def backup(configfile='config.json'):
             break
 
         posts = strip_metadata(page['posts'], config['strip_metadata'])
+
         print json.dumps(posts, separators = (',', ':'))
 
         if page['pages_left']:
-            offset = int(page['pages_left'] * per_page)
             cur_page += 1
+            offset = cur_page * per_page
         else:
             break
 
