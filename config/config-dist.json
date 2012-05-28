@@ -1,5 +1,6 @@
 {
     "url": "my.tumblr.com",
     "api_key": "myApiKey",
-    "strip_metadata": ["format", "note_count", "post_url", "reblog_key", "date", "blog_name"]
+    "strip_metadata": ["format", "note_count", "post_url", "reblog_key", "date", "blog_name"],
+    "sleep": 1
 }

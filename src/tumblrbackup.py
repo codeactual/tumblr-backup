@@ -7,6 +7,7 @@ The blog domain and API key is read from config.json. See config-dist.json.
 import json
 import math
 import os
+import time
 import urllib2
 
 def get_posts(blog_url, api_key, limit=20, offset=0, page=1):
@@ -66,6 +67,11 @@ def backup(configfile='config.json'):
             offset = cur_page * per_page
         else:
             break
+
+        if config.has_key('sleep') :
+            time.sleep(config['sleep'])
+        else:
+            time.sleep(1)
 
 if __name__ == '__main__':
     backup()
